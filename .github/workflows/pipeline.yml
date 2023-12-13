@@ -25,17 +25,17 @@ jobs:
       run: npm install
     - name: Start Unit tests
       run: npm run test:unit
-  # deploy:
-  #     needs: build
-  #     runs-on: ubuntu-latest
-  #     steps:
-  #       - name: Deploy to render
-  #         uses: johnbeynon/render-deploy-action@v0.0.8
-  #         with:
-  #           service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
-  #           api-key: ${{ secrets.MY_RENDER_API_KEY }}
   deploy:
-    needs: build
+      needs: build
+      runs-on: ubuntu-latest
+      steps:
+        - name: Deploy to render
+          uses: johnbeynon/render-deploy-action@v0.0.8
+          with:
+            service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
+            api-key: ${{ secrets.MY_RENDER_API_KEY }}
+  wait-deploy-finish:
+    needs: deploy
     name: Wait for Deploy
     runs-on: ubuntu-latest
     steps:
@@ -49,7 +49,7 @@ jobs:
           wait: 16000
           sleep: 30000
   run-ui-tests:
-      needs: deploy
+      needs: wait-deploy-finish
       runs-on: ubuntu-latest
 
       steps:
