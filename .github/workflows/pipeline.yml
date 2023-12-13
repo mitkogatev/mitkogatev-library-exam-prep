@@ -22,4 +22,4 @@ jobs:
     - name: Build
       run: npm install
     - name: Start Unit tests
-    - run: npm run test:unit
+      run: npm run test:unit
