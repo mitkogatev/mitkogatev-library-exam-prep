@@ -25,15 +25,28 @@ jobs:
       run: npm install
     - name: Start Unit tests
       run: npm run test:unit
+  # deploy:
+  #     needs: build
+  #     runs-on: ubuntu-latest
+  #     steps:
+  #       - name: Deploy to render
+  #         uses: johnbeynon/render-deploy-action@v0.0.8
+  #         with:
+  #           service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
+  #           api-key: ${{ secrets.MY_RENDER_API_KEY }}
   deploy:
-      needs: build
-      runs-on: ubuntu-latest
-      steps:
-        - name: Deploy to render
-          uses: johnbeynon/render-deploy-action@v0.0.8
-          with:
-            service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
-            api-key: ${{ secrets.MY_RENDER_API_KEY }}
+    name: Wait for Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for Render Deployment
+        uses: bounceapp/render-action@0.6.0
+        with:
+          render-token: ${{ secrets.MY_RENDER_API_KEY }}
+          # github-token: ${{ secrets.GITHUB_TOKEN }}
+          service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
+          retries: 20
+          wait: 16000
+          sleep: 30000
   run-ui-tests:
       needs: deploy
       runs-on: ubuntu-latest
