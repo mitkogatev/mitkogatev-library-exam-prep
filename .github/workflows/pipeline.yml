@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Show SoftUni username
+      run: echo "mitkogatev"
     - name: Checkout repo
       uses: actions/checkout@v3
     - name: Use Node.js 18.x
