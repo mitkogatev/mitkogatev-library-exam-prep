@@ -43,7 +43,7 @@ jobs:
         uses: bounceapp/render-action@0.6.0
         with:
           render-token: ${{ secrets.MY_RENDER_API_KEY }}
-          # github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.TOKEN }}
           service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
           retries: 20
           wait: 16000
